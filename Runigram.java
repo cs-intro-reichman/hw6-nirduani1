@@ -1,5 +1,7 @@
 import java.awt.Color;
 
+import javax.swing.plaf.ColorUIResource;
+
 /** A library of image processing functions. */
 public class Runigram {
 
@@ -22,6 +24,7 @@ public class Runigram {
 		
 		//// Write here whatever code you need in order to test your work.
 		//// You can continue using the image array.
+		
 	}
 
 	/** Returns a 2D array of Color values, representing the image data
@@ -156,8 +159,11 @@ public class Runigram {
 	 * values in the two input color.
 	 */
 	public static Color blend(Color c1, Color c2, double alpha) {
-		//// Replace the following statement with your code
-		return null;
+		int blendRed = (int)(alpha*c1.getRed() + (1 - alpha)*c2.getRed()) ;
+		int blendGreen = (int)(alpha*c1.getGreen() + (1 - alpha)*c2.getGreen()) ;
+		int blendBlue = (int)(alpha*c1.getBlue() + (1 - alpha)*c2.getBlue()) ;
+		Color blend = new Color(blendRed, blendGreen, blendBlue) ;
+		return blend;
 	}
 	
 	/**
@@ -167,8 +173,23 @@ public class Runigram {
 	 * The two images must have the same dimensions.
 	 */
 	public static Color[][] blend(Color[][] image1, Color[][] image2, double alpha) {
-		//// Replace the following statement with your code
-		return null;
+		Color [][] blendImage = new Color [image1.length][image1[0].length] ;
+
+        if (image1.length != image2.length || image1[0].length != image2[0].length) {
+			Color [][] image2Scaled = scaled(image2, image1.length, image1[0].length) ;
+			for (int i = 0; i < blendImage.length; i++) {
+				for (int j = 0; j <blendImage[0].length ; j++) {
+					blendImage[i][j] = blend(image1[i][j], image2Scaled[i][j], alpha) ;
+				}
+			}
+		} else {
+			for (int i = 0; i < blendImage.length; i++) {
+				for (int j = 0; j <blendImage[0].length ; j++) {
+					blendImage[i][j] = blend(image1[i][j], image2[i][j], alpha) ;
+				}
+			}
+		}		
+		return blendImage;
 	}
 
 	/**
