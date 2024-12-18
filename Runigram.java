@@ -109,8 +109,6 @@ public class Runigram {
 	// the three values r = lum, g = lum, b = lum.
 	private static Color luminance(Color pixel) {
 		int lum = (int)(0.299*pixel.getRed()+ 0.587*pixel.getGreen() + 0.114*pixel.getBlue()) ;
-		// נצמיד לטווח מתאים אם יהיה חריגה מעל 255 או מתחת ל- 0
-		//lum = Math.max(0, Math.min(255, lum)) ;
 		Color lumColor = new Color(lum, lum, lum) ;
 		return lumColor;
 	}
@@ -135,9 +133,21 @@ public class Runigram {
 	 * The image is scaled (resized) to have the given width and height.
 	 */
 	public static Color[][] scaled(Color[][] image, int width, int height) {
-		//// Replace the following statement with your code
-		return null;
+		 int h0 = image.length ; 
+		 int w0 = image[0].length ; 
+		 Color[][] scaledImage = new Color[height][width] ;
+		 double rowRatio = (double) h0 / height ; 
+		 double colRatio = (double) w0 / width ; 
+		 for (int i = 0; i < height; i++) { 
+			for (int j = 0; j < width; j++) { 
+				int originalRow = (int)(i * rowRatio) ;
+			    int originalCol = (int)(j * colRatio) ; 
+				scaledImage[i][j] = image[originalRow][originalCol] ;
+			}
+		 }
+		 return scaledImage; 
 	}
+
 	
 	/**
 	 * Computes and returns a blended color which is a linear combination of the two given
